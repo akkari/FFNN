@@ -23,8 +23,9 @@ class NN:
     # Initialize weights and biases and set transfer function.
         for i in xrange(1, len(structure)):
             row, col = structure[i], structure[i-1]
-            self.weight.append(np.random.random_sample((row, col)))
-            self.bias.append(np.random.random((row, 1)))
+            # Initialize to random numbers from [-1, 1).
+            self.weight.append(2.0 * np.random.random_sample((row, col)) - 1.0)
+            self.bias.append(2.0 * np.random.random_sample((row, 1)) - 1.0)
             if i == len(structure) - 1:
                 self.transfer_function.append(purelin)
             else:
