@@ -8,6 +8,8 @@ import cPickle
 
 class NN:
     def __init__(self, structure, input, target):
+        """ Input: sequence of sequences.
+            target: sequence of sequences."""
         if len(structure) < 3:
             raise ValueError("Invalid structure")
             return
@@ -40,11 +42,10 @@ class NN:
 
     def train(self, learning_rate=0.2, max_epoch=10000):
         for epoch in xrange(1, max_epoch+1):
-            print epoch
         # Incremental training: weights and biases and updated after each input is presented.
             for i, t in zip(self.input, self.target):
                 output, raw_input, net_input = self.propagate(np.array([i]), True)
-                error = t - output[0]
+                error = t - output
 
             # Calculate sensitivity.
                 sensitivity = [None] * len(net_input)
@@ -63,7 +64,8 @@ class NN:
 
 
     def __call__(self, input):
-        """ Input: sequence of sequence."""
+        """ Return a list of numbers or a list of vectors.
+        Input: sequence of sequence."""
         i = np.copy(input)
     # Normalize input.
         for index in xrange(len(i)):
@@ -75,8 +77,6 @@ class NN:
         for index in xrange(len(output)):
                 output[index] = output[index] * self.output_norm_coef[0] + self.output_norm_coef[1]
 
-        if self.dim_out == 1:
-            output = [ o[0][0] for o in output]
         return output
 
 
@@ -96,7 +96,7 @@ class NN:
                 outof_layer = self.transfer_function[j](n)
                 into_layer = outof_layer
 
-            output.append(outof_layer)
+            output.append(outof_layer.flatten())
 
         if save_path:
             return np.array(output), raw_input, net_input
