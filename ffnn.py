@@ -81,6 +81,15 @@ class NN:
         return output
 
 
+    def std(self, input, target):
+        sqr_err = (self.__call__(input) - target) ** 2
+        return sqr_err.mean()
+
+
+    def RMSD(self, input, target):
+        return self.std(input, target) ** 0.5
+
+
     def propagate(self, input, save_path=False):
         """ Input: array of arrays."""
 
