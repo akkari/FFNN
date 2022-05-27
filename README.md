@@ -1,7 +1,7 @@
 # FFNN
 Feedforward Neural Network in Python
 
-##Example
+## Example
 ```python
     #Train a 2-layer network to fit the sine function in the interval [0.0, 4.0]
     
